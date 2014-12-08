@@ -66,7 +66,7 @@ class Pattern(object):
         def w_hrl(self, index, mode):
             hrl = week.globalgetvar(self)
             hour_in[0] = hrl
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
             if hrl >= hour_out[0]:
                 week.hourleft2 = StringVar(week)
                 week.hourleft2.trace('w', w_hrl2)
@@ -106,7 +106,7 @@ class Pattern(object):
         def w_hrr(self, index, mode):
             hrr = week.globalgetvar(self)
             hour_in[1] = hrr
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
             if hour_out[0] != 2:
 
@@ -151,7 +151,7 @@ class Pattern(object):
         def w_mnl(self, index, mode):
             mnl = week.globalgetvar(self)
             minute_in[0] = mnl
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
             if minute_in[0] >= minute_out[0]:
                 week.minuteleft2 = StringVar(week)
@@ -167,7 +167,7 @@ class Pattern(object):
         def w_mnr(self, index, mode):
             mnr = week.globalgetvar(self)
             minute_in[1] = mnr
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
             if minute_in[1] >= minute_out[1]:
                 week.minuteright2 = StringVar(week)
@@ -188,7 +188,7 @@ class Pattern(object):
         def w_hrl2(self, index, mode):
             hrl2 = week.globalgetvar(self)
             hour_out[0] = hrl2
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
             if hrl2 == 2:
                 week.hourright2 = StringVar(week)
                 week.hourright2.trace('w', w_hrr2)
@@ -204,20 +204,20 @@ class Pattern(object):
         def w_hrr2(self, index, mode):
             hrr2 = week.globalgetvar(self)
             hour_out[1] = hrr2
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
 
     ##-------------------------------- SUB TIME OUT MINUTE------------------------------------------
         def w_mnl2(self, index, mode):
             mnl2 = week.globalgetvar(self)
             minute_out[0] = mnl2
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
 
         def w_mnr2(self, index, mode):
             mnr2 = week.globalgetvar(self)
             minute_out[1] = mnr2
-            print 'HOURS= ', hour_in, hour_out, 'MINUTE = ', minute_in, minute_out
+            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
             
 
 ##------------------------------------------------------------------------------------------------------------------------

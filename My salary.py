@@ -153,32 +153,34 @@ class Pattern(object):
             minute_in[0] = mnl
             print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
-            if minute_in[0] >= minute_out[0]:
-                week.minuteleft2 = StringVar(week)
-                week.minuteleft2.trace('w', w_mnl2)
-                week.minuteleft2.set(listtime[minute_in[0]])
-                OptionMenu(week,week.minuteleft2, *listtime[minute_in[0]:6]).place(relx=0.82, rely=0.35)
-            else:
-                week.minuteleft2 = StringVar(week)
-                week.minuteleft2.trace('w', w_mnl2)
-                week.minuteleft2.set(listtime[minute_out[0]])
-                OptionMenu(week,week.minuteleft2, *listtime[minute_in[0]:6]).place(relx=0.82, rely=0.35)
+            if (hour_in[0] == hour_out[0]) and (hour_in[1] == hour_out[1]):
+                if minute_in[0] >= minute_out[0]:
+                    week.minuteleft2 = StringVar(week)
+                    week.minuteleft2.trace('w', w_mnl2)
+                    week.minuteleft2.set(listtime[minute_in[0]])
+                    OptionMenu(week,week.minuteleft2, *listtime[minute_in[0]:6]).place(relx=0.82, rely=0.35)
+                else:
+                    week.minuteleft2 = StringVar(week)
+                    week.minuteleft2.trace('w', w_mnl2)
+                    week.minuteleft2.set(listtime[minute_out[0]])
+                    OptionMenu(week,week.minuteleft2, *listtime[minute_in[0]:6]).place(relx=0.82, rely=0.35)
 
         def w_mnr(self, index, mode):
             mnr = week.globalgetvar(self)
             minute_in[1] = mnr
             print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
 
-            if minute_in[1] >= minute_out[1]:
-                week.minuteright2 = StringVar(week)
-                week.minuteright2.trace('w', w_mnr2)
-                week.minuteright2.set(listtime[minute_in[1]])
-                OptionMenu(week,week.minuteright2, *listtime[minute_in[1]::]).place(relx=0.91, rely=0.35)
-            else:
-                week.minuteright2 = StringVar(week)
-                week.minuteright2.trace('w', w_mnr2)
-                week.minuteright2.set(listtime[minute_out[1]])
-                OptionMenu(week,week.minuteright2, *listtime[minute_in[1]::]).place(relx=0.91, rely=0.35)
+            if (hour_in[0] == hour_out[0]) and (hour_in[1] == hour_out[1]):
+                if minute_in[1] >= minute_out[1]:
+                    week.minuteright2 = StringVar(week)
+                    week.minuteright2.trace('w', w_mnr2)
+                    week.minuteright2.set(listtime[minute_in[1]])
+                    OptionMenu(week,week.minuteright2, *listtime[minute_in[1]::]).place(relx=0.91, rely=0.35)
+                else:
+                    week.minuteright2 = StringVar(week)
+                    week.minuteright2.trace('w', w_mnr2)
+                    week.minuteright2.set(listtime[minute_out[1]])
+                    OptionMenu(week,week.minuteright2, *listtime[minute_in[1]::]).place(relx=0.91, rely=0.35)
 
 
 ##----------------------------------------- SUB TIME OUT ----------------------------------------------------------------------------

@@ -66,7 +66,7 @@ class Pattern(object):
         def w_hrl(self, index, mode):
             hrl = week.globalgetvar(self)
             hour_in[0] = hrl
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
             if hrl >= hour_out[0]:
                 week.hourleft2 = StringVar(week)
                 week.hourleft2.trace('w', w_hrl2)
@@ -106,9 +106,9 @@ class Pattern(object):
         def w_hrr(self, index, mode):
             hrr = week.globalgetvar(self)
             hour_in[1] = hrr
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
 
-            if hour_out[0] != 2:
+            if hour_out[0] != 2 and  hour_out[0] == hour_in[0]:
 
                 if hour_in[1] >= hour_out[1]:
                     week.hourright2 = StringVar(week)
@@ -120,6 +120,18 @@ class Pattern(object):
                     week.hourright2.trace('w', w_hrr2)
                     week.hourright2.set(listtime[hour_out[1]])
                     OptionMenu(week,week.hourright2, *listtime[hour_in[1]::]).place(relx=0.69, rely=0.35)
+
+            elif hour_out[0] > hour_in[0]:
+                if hour_out[0] == 2:
+                    week.hourright2 = StringVar(week)
+                    week.hourright2.trace('w', w_hrr2)
+                    week.hourright2.set(listtime[hour_out[1]])
+                    OptionMenu(week,week.hourright2, *listtime[0:5]).place(relx=0.69, rely=0.35)
+                else:
+                    week.hourright2 = StringVar(week)
+                    week.hourright2.trace('w', w_hrr2)
+                    week.hourright2.set(listtime[hour_out[1]])
+                    OptionMenu(week,week.hourright2, *listtime).place(relx=0.69, rely=0.35)
 
             elif hour_out[0] == 2 and hour_in[0] == 2:
 
@@ -151,7 +163,7 @@ class Pattern(object):
         def w_mnl(self, index, mode):
             mnl = week.globalgetvar(self)
             minute_in[0] = mnl
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
 
             if (hour_in[0] == hour_out[0]) and (hour_in[1] == hour_out[1]):
                 if minute_in[0] >= minute_out[0]:
@@ -168,7 +180,7 @@ class Pattern(object):
         def w_mnr(self, index, mode):
             mnr = week.globalgetvar(self)
             minute_in[1] = mnr
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
 
             if (hour_in[0] == hour_out[0]) and (hour_in[1] == hour_out[1]):
                 if minute_in[1] >= minute_out[1]:
@@ -190,36 +202,48 @@ class Pattern(object):
         def w_hrl2(self, index, mode):
             hrl2 = week.globalgetvar(self)
             hour_out[0] = hrl2
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
-            if hrl2 == 2:
-                week.hourright2 = StringVar(week)
-                week.hourright2.trace('w', w_hrr2)
-                week.hourright2.set(listtime[0])
-                OptionMenu(week,week.hourright2, *listtime[hour_out[1]:5]).place(relx=0.69, rely=0.35)
-            else:
-                week.hourright2 = StringVar(week)
-                week.hourright2.trace('w', w_hrr2)
-                week.hourright2.set(listtime[hour_out[1]])
-                OptionMenu(week,week.hourright2, *listtime[hour_out[1]::]).place(relx=0.69, rely=0.35)
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
+            if hour_in[0] == 0 and hour_in[1] == 0:
+                if hrl2 == 2:
+                    week.hourright2 = StringVar(week)
+                    week.hourright2.trace('w', w_hrr2)
+                    week.hourright2.set(listtime[0])
+                    OptionMenu(week,week.hourright2, *listtime[hour_out[1]:4]).place(relx=0.69, rely=0.35)
+                else:
+                    week.hourright2 = StringVar(week)
+                    week.hourright2.trace('w', w_hrr2)
+                    week.hourright2.set(listtime[hour_out[1]])
+                    OptionMenu(week,week.hourright2, *listtime).place(relx=0.69, rely=0.35)
+            elif hour_in[0] == hrl2:
+                if hrl2 == 2:
+                    week.hourright2 = StringVar(week)
+                    week.hourright2.trace('w', w_hrr2)
+                    week.hourright2.set(listtime[0])
+                    OptionMenu(week,week.hourright2, *listtime[hour_out[1]:5]).place(relx=0.69, rely=0.35)
+                else:
+                    week.hourright2 = StringVar(week)
+                    week.hourright2.trace('w', w_hrr2)
+                    week.hourright2.set(listtime[hour_in[1]])
+                    OptionMenu(week,week.hourright2, *listtime[hour_in[1]::]).place(relx=0.69, rely=0.35)
             
 
         def w_hrr2(self, index, mode):
             hrr2 = week.globalgetvar(self)
             hour_out[1] = hrr2
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
 
 
     ##-------------------------------- SUB TIME OUT MINUTE------------------------------------------
         def w_mnl2(self, index, mode):
             mnl2 = week.globalgetvar(self)
             minute_out[0] = mnl2
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
 
 
         def w_mnr2(self, index, mode):
             mnr2 = week.globalgetvar(self)
             minute_out[1] = mnr2
-            print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
+            print 'HOURS IN : ', hour_in, minute_in, 'HOURS OUT : ', hour_out, minute_out
             
 
 ##------------------------------------------------------------------------------------------------------------------------

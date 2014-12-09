@@ -201,6 +201,11 @@ class Pattern(object):
                 week.hourright2.trace('w', w_hrr2)
                 week.hourright2.set(listtime[0])
                 OptionMenu(week,week.hourright2, *listtime[hour_out[1]:5]).place(relx=0.69, rely=0.35)
+            elif hrl2 == hour_in[0]:
+                week.hourright2 = StringVar(week)
+                week.hourright2.trace('w', w_hrr2)
+                week.hourright2.set(listtime[hour_in[1]])
+                OptionMenu(week,week.hourright2, *listtime[hour_in[1]::]).place(relx=0.69, rely=0.35)
             else:
                 week.hourright2 = StringVar(week)
                 week.hourright2.trace('w', w_hrr2)

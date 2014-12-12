@@ -2,10 +2,9 @@ from Tkinter import *
 import tkMessageBox
 days_w, days_m = 7, 30
 
-listtime = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-hour_in, hour_out = [0, 0], [0, 0]
-minute_in, minute_out = [0, 0], [0, 0]
 tick_cfm1, tick_cfm2 = [0], [0]
+sub_wkd, daysl = [0], [0]
+earn_get_all = [0]
 
 class App(object):
     
@@ -64,7 +63,8 @@ class Check_days(object):
 
         if call_result == True:
             self.ask_work.destroy()
-            Pattern(self.workday.get())
+            daysl[0] = self.workday.get()
+            Pattern(daysl[0])
         else:
             if self.workday == 0:
                 tkMessageBox.showwarning("Error", "Error input have more than one day")
@@ -78,7 +78,8 @@ class Check_days(object):
 
         if self.call_calculate == True:
             self.ask_work.destroy()
-            Pattern(self.workday.get())
+            daysl[0] = self.workday.get()
+            Pattern(daysl[0])
         else:
             if self.workday == 0:
                 tkMessageBox.showwarning("Error", "Error input have more than one day")
@@ -89,11 +90,6 @@ class Check_days(object):
     def destroyer(self):
         self.ask_work.destroy()
         App()
-
-    def open_from(self):
-        self.ask_work.destroy()
-        Pattern()
-
 
 
 class Check_moredays(object):
@@ -106,14 +102,16 @@ class Check_moredays(object):
 
 ##------------------------------------------------------- Pattern --------------------------------------------------------------------
 class Pattern(object):
+    
 
     def __init__(self, workday):
         week = Tk()
 
         self.workday = workday
 
-        week.geometry("650x350+500+250")
+        week.geometry("650x350+450+250")
         week.wm_title("My salary")
+
         Label(week, text = 'Earnings Per Hours :', ).place(relx=0.30, rely=0.1)
 
         self.earn = IntVar()
@@ -126,16 +124,13 @@ class Pattern(object):
         Label(week, text = 'What time do you knock off?', ).place(relx=0.65, rely=0.26)
         
 
-        self.time_in_out(week)
-
-    
-    def time_in_out(self, week):
-
+        listtime= [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        hour_in, hour_out = [0, 0], [0, 0]
+        minute_in, minute_out = [0, 0], [0, 0]
         
 ##------------------------------------------- TIME SUB IN -----------------------------------------------------------------------
 
     ##------------------------------------ SUB TIME IN HOURS ----------------------------------------------------
-
         def w_hrl(event):
             hour_in[0] = self.hourleft.get()
             print 'HOURS : ', hour_in, minute_in, 'MINUTE : ', hour_out, minute_out
@@ -322,8 +317,10 @@ class Pattern(object):
                 label.place_forget()
                 butt_yes.place_forget()
 
+                textbreak = Label(week, text = 'Break time (HOUR)', )
+
                 butt_back.place(relx=0.61, rely=0.61)
-                textbreak.place(relx=0.455, rely=0.52)    
+                textbreak.place(relx=0.42, rely=0.52)    
                 breaks.place(relx=0.4, rely=0.61)
 
         def button_back():
@@ -340,44 +337,29 @@ class Pattern(object):
 
         def new_windows():
             num_hour_in, num_hour_out = int(str(hour_in[0])+str(hour_in[1])), int(str(hour_out[0])+str(hour_out[1]))
+            sub_time = num_hour_out - num_hour_in - self.breaks.get()
+            earn_get = self.earn.get()*sub_time
+
             if (tick_cfm1[0] != 1 or tick_cfm2[0] != 1) and (tick_cfm1[0] == 0 or tick_cfm2[0] == 0):
                 if num_hour_in > num_hour_out:
                     tkMessageBox.showwarning("Error", "Error, Please enter time knock off.")
                 else:
-                    tkMessageBox.showwarning("Error", "Error, Please click set time and confirm button")
+                    tkMessageBox.showwarning("Error", "Error, Please click set time and confirm button.")
+            elif self.breaks.get() > num_hour_out - num_hour_in:
+                tkMessageBox.showwarning("Error", "Error, Please enter break time less than working time.")
             else:
                 print 'Yes'
-
-            # def back_2_week():
-            #     week.deiconify()
-            #     new_win.withdraw()
-                
-            # week.withdraw()
-
-            # new_win = Tk()
-            # new_win.geometry("250x200+650+300")
-            # new_win.wm_title("My salary")
-            
-            # Label(new_win, text = 'Please select the number of working days').place(relx=0.038, rely=0.24)
-
-            # listweek = map(int, xrange(31))
-
-            # work_days = IntVar(new_win)
-            # work_days.set(1)
-            # OptionMenu(new_win, work_days, *listweek[1:self.workday+1]).place(relx=0.4, rely=0.44)
-
-            # Button(new_win,text='OK', command = back_2_week).place(relx=0.4, rely=0.74)
+                Conclude(self.workday, earn_get, week)
         
 
         def cancel():
             week.destroy()
             App()
             
-        textbreak = Label(week, text = 'Break time', )
         
         self.breaks = IntVar()
         breaks = Entry(week, textvariable=self.breaks, justify='center', bd = 5)
-
+        
         butt_yes = Button(week, text='Yes', command =button_yes)
         butt_back = Button(week, text='Back', command = button_back)
         butt_submit = Button(week, text = 'Submit', command = new_windows,  height = 1, width = 10)
@@ -389,10 +371,48 @@ class Pattern(object):
         
         week.mainloop()
 
-# class Conclude(object):
-#     def __init__():
+class Conclude(object):
+
+    def __init__(self, wkd, money, wee):
+            
+        wee.withdraw()
+
+        new_win = Tk()
+        new_win.geometry("250x200+650+300")
+        new_win.wm_title("My salary")
+            
+        Label(new_win, text = 'Please select the number of working days').place(relx=0.038, rely=0.24)
+
+        listweek = map(int, xrange(31))
+
+        work_days = IntVar(new_win)
+        work_days.set(1)
+        OptionMenu(new_win, work_days, *listweek[1:daysl[0]+1]).place(relx=0.4, rely=0.44)
+
+        Button(new_win,text='OK', command = lambda : self.sub_con(wkd, work_days.get(), money, new_win, wee)).place(relx=0.4, rely=0.74)
+
+    def sub_con(self, wkds, wkdg, money, nww, wees):
+
+        sub_wkd[0] = daysl[0]-wkdg
+        daysl[0] = sub_wkd[0]
+        earn_get_all[0] += money*wkdg
 
 
+        if daysl[0] > 0:
+            nww.withdraw()
+            wees.deiconify()
+        else:
+            nww.withdraw()
+            Answer(earn_get_all[0])
+
+class Answer(object):
+    def __init__(self, moneys):
+        ans = Tk()
+        ans.geometry("350x350+650+300")
+        ans.wm_title("The total revenue")
+
+        Label(ans, text = 'You get money = ').place(relx=0.1, rely=0.24)
+        Label(ans, text = moneys).place(relx=0.5, rely=0.24)
         
 if __name__ == '__main__':
     App()

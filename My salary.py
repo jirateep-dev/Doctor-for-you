@@ -1,6 +1,5 @@
 from Tkinter import *
 import tkMessageBox
-
 tick_cfm1, tick_cfm2 = [0], [0]
 sub_wkd, daysl = [0], [0]
 earn_get_all = [0]
@@ -10,43 +9,89 @@ class App(object):
     def __init__(self):
         
         self.root = Tk()
+        self.root.configure(background='white')
         self.root.resizable(0,0)
         self.root.geometry("400x200+550+300")
         self.root.wm_title("My salary")
-        Label(self.root, fg = "blue", font = "Helvetica 20 bold",text = 'Please Choose Form').place(relx=0.5, rely=0.2, anchor = CENTER)       
+        Label(self.root, fg = "blue", font = "Helvetica 20 bold",text = 'Please Choose Form', bg = 'white').place(relx=0.5, rely=0.2, anchor = CENTER)       
 
-        week = Button(self.root,font = " Serif 12 bold",fg="midnight blue", text = 'Week form', height = 2, width = 25, command = lambda : self.destroyers(7))
+        week = Button(self.root,font = " Serif 12 bold",fg="midnight blue", text = 'Week form', bg = 'white',height = 2, width = 25, \
+            command = lambda : self.destroyers(7))
         week.place(relx=0.5, rely=0.5,anchor = CENTER)
-        month = Button(self.root,font = " Serif 12 bold",fg="midnight blue", text = 'Month form', height = 2, width = 25, command = lambda : self.destroyers(30))
-        month.place(relx=0.5, rely=0.8,anchor = CENTER)   
 
+        month = Button(self.root,font = " Serif 12 bold",fg="midnight blue", text = 'Month form', bg = 'white',height = 2, width = 25, \
+            command = lambda : self.destroyers(30))
+        month.place(relx=0.5, rely=0.8,anchor = CENTER) 
+
+        Menubar(self.root)
         self.root.mainloop()
 
     def destroyers(self, days):
         self.root.destroy()
         Check_days(days)
 
+class Menubar(object):
+    def __init__(self, rti):
+        self.rti = rti
+        menubar = Menu(self.rti)
+        filemenu = Menu(menubar, tearoff=0)
+
+        filemenu.add_separator()
+
+        filemenu.add_command(label="Exit", command=self.rti.destroy)
+        menubar.add_cascade(label="File", menu=filemenu)
+
+        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu.add_command(label="About...", command=lambda : About(self.rti))
+        menubar.add_cascade(label="Help", menu=helpmenu)
+
+        self.rti.config(menu=menubar)
+
+
+class About(object):
+    def __init__(self, rtii):
+
+        rtii.destroy()
+        self.new_about = Tk()
+        self.new_about.resizable(0,0)
+        self.new_about.geometry("500x400+500+200")
+        self.new_about.wm_title("My salary")
+
+        photos = PhotoImage(file="about.gif")
+        label_pho = Label(self.new_about, image = photos)
+        label_pho.image = photos
+        label_pho.pack()
+        
+        Button(self.new_about, text= "Back", command = self.exit).place(relx=0.9, rely=0.9)
+
+        self.new_about.mainloop()
+
+    def exit(self):
+        self.new_about.destroy()
+        App()
 
 class Check_days(object):
     
     def __init__(self, days):
         self.ask_work = Tk()
+        self.ask_work.configure(background='white')
         self.ask_work.resizable(0,0)
         self.ask_work.geometry("300x200+600+300")
         self.ask_work.wm_title("My salary")
 
         if days == 7:
-            Label(self.ask_work, font = "System 14 ", text='How many days do you work in 1 week ? ').place(relx=0.05, rely=0.2)
-            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='OK', command= lambda : self.open_calculate(days)).place(relx=0.35, rely=0.7)
-            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='Back', command= self.destroyer).place(relx=0.5, rely=0.7)
+            Label(self.ask_work, font = "System 10 ", text='How many days do you work in 1 week ? ', bg = 'white').place(relx=0.05, rely=0.2)
+            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='OK', bg = 'white', command= lambda : self.open_calculate(days)).place(relx=0.35, rely=0.7)
+            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='Back', bg = 'white', command= self.destroyer).place(relx=0.5, rely=0.7)
         else:
-            Label(self.ask_work,font = "System 14 ",  text='How many days do you work in 1 month ? ').place(relx=0.05, rely=0.2)
-            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='OK ', command= lambda : self.open_calculate(days)).place(relx=0.35, rely=0.7)
-            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='Back', command= self.destroyer).place(relx=0.5, rely=0.7)
+            Label(self.ask_work,font = "System 10 ",  text='How many days do you work in 1 month ? ', bg = 'white').place(relx=0.05, rely=0.2)
+            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='OK ', bg = 'white', command= lambda : self.open_calculate(days)).place(relx=0.35, rely=0.7)
+            Button(self.ask_work,font = "System 14 ",fg="midnight blue", text='Back', bg = 'white', command= self.destroyer).place(relx=0.5, rely=0.7)
 
         self.workday = IntVar()
         self.entry = Entry(self.ask_work, textvariable=self.workday, justify='center', bd = 5)
         self.entry.place(relx=0.3, rely=0.45)
+        Menubar(self.ask_work) 
         
 
     def open_calculate(self, days):
@@ -86,9 +131,8 @@ class Pattern(object):
 
     def __init__(self, workday):
         week = Tk()
+        week.configure(background='white')
         week.resizable(0,0)
-
-        textconclude = ''
 
         if workday <= 7:
             textconclude = "Total income in this week"
@@ -98,16 +142,16 @@ class Pattern(object):
         week.geometry("650x350+450+250")
         week.wm_title("My salary")
         
-        Label(week,font = "Verdana 10 bold",fg="DodgerBlue4", text = 'Earnings Per Hours :', ).place(relx=0.25, rely=0.1)
+        Label(week,font = "Verdana 10 bold",fg="DodgerBlue4", text = 'Earnings Per Hours :', bg = 'white').place(relx=0.25, rely=0.1)
 
         self.earn = IntVar()
         Entry(week, textvariable=self.earn, justify='center', bd = 5).place(relx=0.50, rely=0.1)
 
-        Label(week,font = "Verdana 10 bold", text = ':', ).place(relx=0.2, rely=0.36)
-        Label(week,font = "Verdana 10 bold",fg="dark goldenrod", text = 'What time do you start your work?', ).place(relx=0.03, rely=0.26)
+        Label(week,font = "Verdana 10 bold", text = ':', bg = 'white').place(relx=0.2, rely=0.36)
+        Label(week,font = "Verdana 10 bold",fg="dark goldenrod", text = 'What time do you start your work?', bg = 'white').place(relx=0.03, rely=0.26)
 
-        Label(week,font = "Verdana 10 bold", text = ':', ).place(relx=0.79, rely=0.36)
-        Label(week,font = "Verdana 10 bold",fg="dark goldenrod", text = 'What time do you knock off?', ).place(relx=0.62, rely=0.26)
+        Label(week,font = "Verdana 10 bold", text = ':', bg = 'white').place(relx=0.79, rely=0.36)
+        Label(week,font = "Verdana 10 bold",fg="dark goldenrod", text = 'What time do you knock off?', bg = 'white').place(relx=0.62, rely=0.26)
         
 
         listtime= [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -283,7 +327,7 @@ class Pattern(object):
 
 ##--------------------------------------------------------Break------------------------------------------------------
 
-        label = Label(week,font = " Sans 12 bold ", fg = "slate blue", text= 'Do you take a break ?')
+        label = Label(week,font = " Sans 12 bold ", fg = "slate blue", text= 'Do you take a break ?', bg = 'white')
         label.place(relx=0.39, rely=0.56)
 
     ##----------------------------------------destroytext and replace textbox ---------------------------------
@@ -320,7 +364,7 @@ class Pattern(object):
             num_hour_in, num_hour_out = int(str(hour_in[0])+str(hour_in[1])), int(str(hour_out[0])+str(hour_out[1]))
             num_minute_in, num_minute_out = int(str(minute_in[0])+str(minute_in[1])), int(str(minute_out[0])+str(minute_out[1]))
 
-            if (tick_cfm1[0] != 1 or tick_cfm2[0] != 1) and (tick_cfm1[0] == 0 or tick_cfm2[0] == 0):
+            if (tick_cfm1[0] != 1 or tick_cfm2[0] != 1) or (tick_cfm1[0] == 0 or tick_cfm2[0] == 0):
                 if num_hour_in > num_hour_out:
                     tkMessageBox.showwarning("Error", "Error, Please enter time knock off.")
                 else:
@@ -344,7 +388,7 @@ class Pattern(object):
         
         self.breaks = IntVar()
         breaks = Entry(week, textvariable=self.breaks, justify='center', bd = 5)
-        textbreak = Label(week,font = "Verdana 10 bold",fg="medium slate blue", text = 'Break time (HOUR)', ) 
+        textbreak = Label(week,font = "Verdana 10 bold",fg="medium slate blue", text = 'Break time (HOUR)', bg = 'white') 
         
         butt_yes = Button(week,font = "Verdana 8",fg="medium slate blue", text='Yes', command =button_yes)
         butt_back = Button(week,font = "Verdana 8",fg="medium slate blue", text='Back', command = button_back)
@@ -354,6 +398,8 @@ class Pattern(object):
         butt_yes.place(relx=0.48, rely=0.64)
         butt_submit.place(relx=0.33, rely=0.8)
         butt_cancel.place(relx=0.53, rely=0.8)
+
+        Menubar(week) 
         
         week.mainloop()
 
@@ -361,17 +407,16 @@ class Conclude(object):
     
 
     def __init__(self, wkd, money, wee, textconclude):
-          
-        #wee.withdraw()
         wee.destroy()
-        text =  textconclude
+        text =  textconclude 
 
         new_win = Tk()
+        new_win.configure(background='white')
         new_win.resizable(0,0)
-        new_win.geometry("300x250+650+300")
+        new_win.geometry("300x180+620+300")
         new_win.wm_title("My salary")
             
-        Label(new_win,font = "System 14 ", text = 'Please select the number of working days').place(relx=0.038, rely=0.24)
+        Label(new_win,font = "System 10 ", text = 'Please select the number of working days', bg = 'white').place(relx=0.038, rely=0.24)
 
         listweek = map(int, xrange(31))
 
@@ -379,23 +424,28 @@ class Conclude(object):
         work_days.set(1)
         OptionMenu(new_win, work_days, *listweek[1:daysl[0]+1]).place(relx=0.4, rely=0.44)
 
-        Button(new_win,font = "System 14 ",fg="midnight blue",text='OK', command = lambda : self.sub_con(wkd, work_days.get(), money, new_win, wee, textconclude)).place(relx=0.43, rely=0.74)
+        Button(new_win,font = "System 14 ",fg="midnight blue",text='OK', command = lambda : self.sub_con(wkd, work_days.get(), money, new_win, wee, textconclude)).place(relx=0.35, rely=0.74)
+        Button(new_win,font = "System 14 ",fg="midnight blue",text='Back', command = lambda : self.back_pattern(new_win, wkd)).place(relx=0.5, rely=0.74)
+
+        Menubar(new_win)
 
     def sub_con(self, wkds, wkdg, money, nww, wees, textconclude):
-
         sub_wkd[0] = daysl[0]-wkdg
         daysl[0] = sub_wkd[0]
         earn_get_all[0] += money*wkdg
+        print earn_get_all[0]
 
         if daysl[0] > 0:
-            #nww.withdraw()
             nww.destroy()
             Pattern(daysl[0])
-            #wees.deiconify()
         else:
-            #nww.withdraw()
             nww.destroy()
             Answer(earn_get_all[0], textconclude)
+
+    def back_pattern(self, nwn, wkdd):
+        nwn.destroy()
+        Pattern(wkdd)
+
 
           
 class Answer(object):
@@ -404,18 +454,21 @@ class Answer(object):
         
         self.ans = Tk()
         self.ans.resizable(0,0)
-        self.ans.geometry("350x350+650+300")
+        self.ans.geometry("350x350+600+250")
         self.ans.wm_title("My slary")
 
-       # photo = PhotoImage(file="goldpack.gif")
-       # Label(ans, image = photo).pack_propagate(0)
+        photo = PhotoImage(file="goldpack.gif")
+        Label(self.ans, image = photo).pack()
 
-        Label(self.ans,font = "Helvetica 18 bold ", fg = "yellow green", text = textconclude).place(relx=0.06, rely=0.05)
+        Label(self.ans,font = "Helvetica 18 bold ", fg = "yellow green", text = textconclude, bg = 'white').place(relx=0.06, rely=0.05)
 
-        Label(self.ans,font = "Verdana 12 ",fg="yellow green", text = 'You get money  =  %d'%moneys).place(relx=0.25, rely=0.75)
+        Label(self.ans,font = "Verdana 12 ",fg="yellow green", text = 'You get money  = ', bg = 'white').place(relx=0.23, rely=0.75)
+        Label(self.ans,font = "Verdana 12 ",fg="red", text = ' %d'%moneys, bg = 'white').place(relx=0.65, rely=0.75)
        
         Button(self.ans,font = "system 14",fg= "blue", text = 'Back to main menu', height = 2, width = 15, command = self.gomain).place(relx=0.5, rely=0.9,anchor = CENTER)
-    
+        Menubar(self.ans) 
+        self.ans.mainloop()
+
     def gomain(self):
         self.ans.destroy()
         App()
